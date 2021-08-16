@@ -12,7 +12,7 @@ const AppRoutes: React.FC = () => {
       screenOptions={{
         headerShown: false,
         cardStyle: {
-          backgroundColor: '#312e38',
+          backgroundColor: '#ffaaba',
         },
       }}
     >
