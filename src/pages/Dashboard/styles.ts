@@ -18,7 +18,7 @@ export const Header = styled.View`
 
 export const HeaderTitle = styled.Text`
   color: #552a03;
-  font-size: 24px;
+  font-size: 20px;
 
   font-family: 'RobotoSlab-Regular';
   line-height: 28px;
@@ -30,3 +30,17 @@ export const HeaderTitle = styled.Text`
 // export const RequestList = styled(FlatList as new () => FlatList<Provider>)`
 //   padding: 32px 24px 16px;
 // `;
+
+export const SubTitle = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+`;
+
+export const TitleWrapper = styled.View`
+  flex-direction: column;
+`;

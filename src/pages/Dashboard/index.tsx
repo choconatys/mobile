@@ -6,15 +6,24 @@ import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../hooks/auth';
 
-import { Container, Header, HeaderTitle } from './styles';
+import {
+  Container,
+  Header,
+  HeaderTitle,
+  TitleWrapper,
+  SubTitle,
+} from './styles';
 
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <Container>
       <Header>
-        <HeaderTitle>Gerenciador de Pedidos</HeaderTitle>
+        <TitleWrapper>
+          <HeaderTitle>Gerenciador de Pedidos</HeaderTitle>
+          <SubTitle>Bem-vindo {user.name}!</SubTitle>
+        </TitleWrapper>
 
         <RectButton
           onPress={() => {
