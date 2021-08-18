@@ -1,11 +1,10 @@
 import styled from 'styled-components/native';
-import { Provider } from './index';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { FlatList } from 'react-native-gesture-handler';
+// import { FlatList } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background: #f4ede8;
+  background: #fcfcfc;
 `;
 
 export const Header = styled.View`
@@ -28,6 +27,6 @@ export const HeaderTitle = styled.Text`
   max-width: 250px;
 `;
 
-export const RequestList = styled(FlatList as new () => FlatList<Provider>)`
-  padding: 32px 24px 16px;
-`;
+// export const RequestList = styled(FlatList as new () => FlatList<Provider>)`
+//   padding: 32px 24px 16px;
+// `;

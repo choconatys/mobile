@@ -13,7 +13,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  avatar_url: string;
+  isAdmin: boolean;
 }
 
 interface AuthState {
@@ -65,16 +65,20 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { token, user } = response.data;
+    const { token, user, isAdmin } = response.data;
 
-    await AsyncStorage.multiSet([
-      ['@GoBarber:token', token],
-      ['@GoBarber:user', JSON.stringify(user)],
-    ]);
+    if (isAdmin === true) {
+      user.isAdmin = isAdmin;
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
+      await AsyncStorage.multiSet([
+        ['@GoBarber:token', token],
+        ['@GoBarber:user', JSON.stringify(user)],
+      ]);
 
-    setData({ token, user });
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      setData({ token, user });
+    }
   }, []);
 
   const signOut = useCallback(async () => {

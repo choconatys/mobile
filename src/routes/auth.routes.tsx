@@ -3,7 +3,6 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SignIn from '../pages/SignIn';
-// import Dashboard from '../pages/Dashboard';
 
 const Auth = createStackNavigator();
 
