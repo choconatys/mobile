@@ -21,8 +21,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     api.get('/requests').then((response: any) => {
-      setRequests(response.data);
-      console.log(response.data);
+      let newArray: any = [];
+
+      response.data.map((request: any) => {
+        let item = request[String(Object.keys(request))];
+
+        newArray.push(item);
+      });
+
+      setRequests(newArray);
     });
   }, []);
 
@@ -58,10 +65,7 @@ const Dashboard: React.FC = () => {
       <FlatList
         data={requests}
         renderItem={({ item }) => (
-          <CardRequest
-            request={item[String(Object.keys(item))]}
-            key={item[String(Object.keys(item))].code}
-          />
+          <CardRequest request={item} key={item.code} />
         )}
       />
     </Container>
