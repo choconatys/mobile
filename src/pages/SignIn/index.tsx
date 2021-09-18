@@ -51,9 +51,20 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        await signIn({ email: data.email, password: data.password });
-
-        navigation.navigate('Dashboard');
+        await signIn({ email: data.email, password: data.password }).then(
+          (permission: boolean) => {
+            if (permission) {
+              navigation.navigate('Dashboard');
+              return;
+            } else {
+              Alert.alert(
+                'Erro na autenticação',
+                'Você não possui permissão para isso!',
+              );
+              return;
+            }
+          },
+        );
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);

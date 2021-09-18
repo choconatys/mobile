@@ -29,7 +29,7 @@ interface SignInCredentials {
 interface AuthContextData {
   user: User;
   loading: boolean;
-  signIn(credentials: SignInCredentials): Promise<void>;
+  signIn(credentials: SignInCredentials): Promise<boolean>;
   signOut(): void;
   updateUser(user: User): Promise<void>;
 }
@@ -78,7 +78,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ token, user });
+      return true;
     }
+
+    return false;
   }, []);
 
   const signOut = useCallback(async () => {

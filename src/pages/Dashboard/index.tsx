@@ -1,7 +1,7 @@
-import React from 'react';
-import { Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-// import CardRequest from '../../components/CardRequest';
+import CardRequest from '../../components/CardRequest';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../hooks/auth';
@@ -13,9 +13,18 @@ import {
   TitleWrapper,
   SubTitle,
 } from './styles';
+import api from '../../services/api';
 
 const Dashboard: React.FC = () => {
+  const [requests, setRequests] = useState();
   const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    api.get('/requests').then((response: any) => {
+      setRequests(response.data);
+      console.log(response.data);
+    });
+  }, []);
 
   return (
     <Container>
@@ -46,10 +55,15 @@ const Dashboard: React.FC = () => {
           <Icon name="log-out" size={30} color="#ffaaba" />
         </RectButton>
       </Header>
-      {/* <RequestList
-        data={['', '', '', '', '', '', '', '', '', '', '', '', '']}
-        renderItem={() => <CardRequest key={''} />}
-      /> */}
+      <FlatList
+        data={requests}
+        renderItem={({ item }) => (
+          <CardRequest
+            request={item[String(Object.keys(item))]}
+            key={item[String(Object.keys(item))].code}
+          />
+        )}
+      />
     </Container>
   );
 };
