@@ -29,6 +29,8 @@ export const HeaderTitle = styled.Text`
 
 export const RequestList = styled(FlatList)`
   padding: 32px 24px 16px;
+
+  min-height: 100px;
 `;
 
 export const SubTitle = styled.Text`
@@ -43,4 +45,17 @@ export const SubTitle = styled.Text`
 
 export const TitleWrapper = styled.View`
   flex-direction: column;
+`;
+
+export const Message = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+  font-weight: bold;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+
+  margin-top: 10px;
 `;

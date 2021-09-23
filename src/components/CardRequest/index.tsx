@@ -1,7 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text } from 'react-native';
 
-import { Container } from './styles';
+import { Container, CodeTitle } from './styles';
 
 interface CardRequestProps {
   request: any;
@@ -12,8 +12,13 @@ const CardRequest: React.FC<CardRequestProps> = ({
   ...rest
 }: CardRequestProps) => {
   return (
-    <Container {...rest}>
-      <Text>Pedido #{request.code}</Text>
+    <Container
+      style={{
+        elevation: 1,
+      }}
+      {...rest}
+    >
+      <CodeTitle>Pedido #{request.code}</CodeTitle>
     </Container>
   );
 };
