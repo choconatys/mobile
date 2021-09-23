@@ -1,7 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import CardRequest from '../../components/CardRequest';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { useAuth } from '../../hooks/auth';
@@ -14,8 +14,21 @@ import {
   SubTitle,
   Message,
   RequestList,
+  ContainerCard,
+  ActionButtons,
+  ControlButton,
+  StatusTitle,
+  DescriptionText,
+  CodeTitle,
 } from './styles';
 import api from '../../services/api';
+
+enum RequestTypes {
+  AGUARDANDO_CONFIRMACAO = 'aguardando',
+  EM_PRODUCAO = 'produzindo',
+  PRONTO_PARA_ENVIO = 'pronto',
+  ENVIADO = 'enviado',
+}
 
 const Dashboard: React.FC = () => {
   const [requests, setRequests] = useState();
@@ -39,6 +52,29 @@ const Dashboard: React.FC = () => {
       }
     });
   }, []);
+
+  const toggleStatus = async (request: any) => {
+    if (request.status !== RequestTypes.ENVIADO) {
+      let newArray: any = [];
+
+      await api
+        .patch(`/requests/status/${request.code}`)
+        .then((response: any) => {
+          const responseOrder = response.data;
+
+          responseOrder.map((resp: any) => {
+            let item = resp[String(Object.keys(resp))];
+
+            newArray.push(item);
+          });
+
+          setRequests(newArray);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
 
   return (
     <Container>
@@ -73,7 +109,66 @@ const Dashboard: React.FC = () => {
       <RequestList
         data={requests}
         renderItem={({ item }: any) => (
-          <CardRequest request={item} key={item.code} />
+          <ContainerCard
+            style={{
+              elevation: 1,
+              opacity: item.status === RequestTypes.ENVIADO ? 0.5 : 1,
+            }}
+          >
+            <CodeTitle>
+              Pedido de {item.username} - #{item.code}
+            </CodeTitle>
+            <DescriptionText>{item.data}</DescriptionText>
+            {item.status === RequestTypes.AGUARDANDO_CONFIRMACAO && (
+              <StatusTitle>Aguardando...</StatusTitle>
+            )}
+            {item.status === RequestTypes.EM_PRODUCAO && (
+              <StatusTitle>Em produção</StatusTitle>
+            )}
+            {item.status === RequestTypes.PRONTO_PARA_ENVIO && (
+              <StatusTitle>Pronto p/ envio</StatusTitle>
+            )}
+            {item.status === RequestTypes.ENVIADO && (
+              <StatusTitle>Enviado</StatusTitle>
+            )}
+
+            <ActionButtons>
+              {item.status === RequestTypes.AGUARDANDO_CONFIRMACAO && (
+                <>
+                  <ControlButton onPress={() => toggleStatus(item)}>
+                    <Icon name="play" size={30} color="#ffaaba" />
+                    <StatusTitle>Confirmar Pedido</StatusTitle>
+                  </ControlButton>
+                </>
+              )}
+              {item.status === RequestTypes.EM_PRODUCAO && (
+                <>
+                  <ControlButton onPress={() => toggleStatus(item)}>
+                    <Icon name="play" size={30} color="#ffaaba" />
+                    <StatusTitle>Em produção</StatusTitle>
+                  </ControlButton>
+                </>
+              )}
+
+              {item.status === RequestTypes.PRONTO_PARA_ENVIO && (
+                <>
+                  <ControlButton onPress={() => toggleStatus(item)}>
+                    <Icon name="play" size={30} color="#ffaaba" />
+                    <StatusTitle>Pronto p/ envio</StatusTitle>
+                  </ControlButton>
+                </>
+              )}
+
+              {item.status === RequestTypes.ENVIADO && (
+                <>
+                  <ControlButton>
+                    <Icon name="check" size={30} color="#ffaaba" />
+                    <StatusTitle>Pedido finalizado!</StatusTitle>
+                  </ControlButton>
+                </>
+              )}
+            </ActionButtons>
+          </ContainerCard>
         )}
       />
     </Container>

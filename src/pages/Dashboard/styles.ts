@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -58,4 +58,83 @@ export const Message = styled.Text`
   max-width: 250px;
 
   margin-top: 10px;
+`;
+
+export const ContainerCard = styled(RectButton)`
+  width: 95%;
+  margin: 0 auto;
+
+  background: #ffff;
+
+  border-radius: 6px;
+
+  margin-bottom: 8px;
+
+  justify-content: center;
+
+  padding: 20px;
+`;
+
+export const CodeTitle = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+  font-weight: bold;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+`;
+
+export const UserTitle = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+  font-weight: bold;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+`;
+
+export const ActionButtons = styled.View`
+  width: 90%;
+  background: #ffff;
+  margin: 0 auto;
+
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+`;
+
+export const StatusTitle = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+
+  margin-left: 10px;
+`;
+
+export const DescriptionText = styled.Text`
+  color: #552a03;
+  font-size: 16px;
+
+  font-family: 'RobotoSlab-Regular';
+
+  width: 100%;
+  max-width: 250px;
+
+  margin-left: 10px;
+`;
+
+export const ControlButton = styled(RectButton)`
+  flex-direction: row;
+  align-items: center;
+
+  border-radius: 6px;
+  padding: 10px;
 `;
