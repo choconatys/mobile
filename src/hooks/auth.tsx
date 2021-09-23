@@ -43,8 +43,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
-        '@GoBarber:token',
-        '@GoBarber:user',
+        '@Choconatys:token',
+        '@Choconatys:user',
       ]);
 
       if (token[1] && user[1]) {
@@ -60,19 +60,24 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('/sessions', {
-      email,
-      password,
-    });
+    let boolean = true;
+    const response = await api
+      .post('/sessions', {
+        email,
+        password,
+      })
+      .catch(() => {
+        boolean = false;
+      });
 
-    const { token, user, isAdmin } = response.data;
+    const { token, user, isAdmin } = response!.data;
 
     if (isAdmin === true) {
       user.isAdmin = isAdmin;
 
       await AsyncStorage.multiSet([
-        ['@GoBarber:token', token],
-        ['@GoBarber:user', JSON.stringify(user)],
+        ['@Choconatys:token', token],
+        ['@Choconatys:user', JSON.stringify(user)],
       ]);
 
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -81,18 +86,22 @@ export const AuthProvider: React.FC = ({ children }) => {
       return true;
     }
 
+    if (!boolean) {
+      return false;
+    }
+
     return false;
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.multiRemove(['@GoBarber:token', '@GoBarber:user']);
+    await AsyncStorage.multiRemove(['@Choconatys:token', '@Choconatys:user']);
 
     setData({} as AuthState);
   }, []);
 
   const updateUser = useCallback(
     async (user: User) => {
-      await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      await AsyncStorage.setItem('@Choconatys:user', JSON.stringify(user));
 
       setData({
         token: data.token,
