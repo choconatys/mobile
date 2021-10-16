@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.152:3030',
+  baseURL: 'https://choconatys.herokuapp.com/v1',
 });
 
 export default api;
