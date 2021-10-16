@@ -24,10 +24,10 @@ import {
 import api from '../../services/api';
 
 enum RequestTypes {
-  AGUARDANDO_CONFIRMACAO = 'aguardando',
-  EM_PRODUCAO = 'produzindo',
-  PRONTO_PARA_ENVIO = 'pronto',
-  ENVIADO = 'enviado',
+  AGUARDANDO_CONFIRMACAO = 'AGUARDANDO_CONFIRMACAO',
+  EM_PRODUCAO = 'EM_PRODUCAO',
+  PRONTO_PARA_ENVIO = 'PRONTO_PARA_ENVIO',
+  ENVIADO = 'ENVIADO',
 }
 
 const Dashboard: React.FC = () => {
@@ -39,10 +39,10 @@ const Dashboard: React.FC = () => {
     api.get('/requests').then((response: any) => {
       let newArray: any = [];
 
-      if (response.data.requests.length <= 0) {
+      if (response.data.data.requests.length <= 0) {
         setMessage('Nenhum pedido encontrado!');
       } else {
-        response.data.requests.map((request: any) => {
+        response.data.data.requests.map((request: any) => {
           let item = request[String(Object.keys(request))];
 
           newArray.push(item);
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
       await api
         .patch(`/requests/status/${request.code}`)
         .then((response: any) => {
-          const responseOrder = response.data;
+          const responseOrder = response.data.data;
 
           responseOrder.map((resp: any) => {
             let item = resp[String(Object.keys(resp))];

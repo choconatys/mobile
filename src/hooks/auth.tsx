@@ -70,7 +70,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         boolean = false;
       });
 
-    const { token, user, isAdmin } = response!.data;
+    const { token, user, isAdmin } = response!.data.data;
 
     if (isAdmin === true) {
       user.isAdmin = isAdmin;
