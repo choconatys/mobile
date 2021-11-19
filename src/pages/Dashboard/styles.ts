@@ -28,7 +28,7 @@ export const HeaderTitle = styled.Text`
 `;
 
 export const RequestList = styled(FlatList)`
-  padding: 32px 24px 16px;
+  padding: 32px 24px 60px;
 
   min-height: 100px;
 `;

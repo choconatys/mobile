@@ -36,39 +36,51 @@ const Dashboard: React.FC = () => {
   const { user, signOut } = useAuth();
 
   useEffect(() => {
-    api.get('/requests').then((response: any) => {
-      let newArray: any = [];
+    api
+      .get('/requests')
+      .then((response: any) => {
+        let newArray: any = [];
 
-      if (response.data.data.requests.length <= 0) {
-        setMessage('Nenhum pedido encontrado!');
-      } else {
-        response.data.data.requests.map((request: any) => {
-          let item = request[String(Object.keys(request))];
-
-          newArray.push(item);
-        });
-
-        setRequests(newArray);
-      }
-    });
-  }, []);
-
-  const toggleStatus = async (request: any) => {
-    if (request.status !== RequestTypes.ENVIADO) {
-      let newArray: any = [];
-
-      await api
-        .patch(`/requests/status/${request.code}`)
-        .then((response: any) => {
-          const responseOrder = response.data.data;
-
-          responseOrder.map((resp: any) => {
-            let item = resp[String(Object.keys(resp))];
+        if (response.data.data.requests.length <= 0) {
+          setMessage('Nenhum pedido encontrado!');
+        } else {
+          response.data.data.requests.map((request: any) => {
+            let item = request[String(Object.keys(request))];
 
             newArray.push(item);
           });
 
           setRequests(newArray);
+        }
+      })
+      .catch(e => console.log(e));
+  }, []);
+
+  const toggleStatus = async (request: any) => {
+    if (request.status !== RequestTypes.ENVIADO) {
+      // let newArray: any = [];
+
+      await api
+        .patch(`/requests/status/${request.code}`)
+        .then(async (_: any) => {
+          await api
+            .get('/requests')
+            .then((response: any) => {
+              let newArray: any = [];
+
+              if (response.data.data.requests.length <= 0) {
+                setMessage('Nenhum pedido encontrado!');
+              } else {
+                response.data.data.requests.map((request: any) => {
+                  let item = request[String(Object.keys(request))];
+
+                  newArray.push(item);
+                });
+
+                setRequests(newArray);
+              }
+            })
+            .catch(e => console.log(e));
         })
         .catch(error => {
           console.log(error);
